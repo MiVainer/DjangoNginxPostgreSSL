@@ -1,0 +1,32 @@
+<!--Здесь находится шаблон для остальных страниц-->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'app1/css/app1.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+</head>
+<body>
+    <!--боковая панель -->
+    <aside>
+        <img src="{%static 'app1/img/logo.webp' %}" alt="Картинка">
+        <span class="logo">MiVainer</span>
+        <h3>Навигация</h3>
+        <ul>
+            <a href="{% url 'home' %}"><li><i class="bi bi-bank"></i> Главная</li></a>
+            <a href="{% url 'about' %}"><li><i class="bi bi-buildings"></i> Про меня</li></a>
+            <a href="{% url 'contacts' %}"><li><i class="bi bi-apple"></i> Мои Контакты</li></a>
+            <a href="{% url 'news_home' %}"><li><i class="bi bi-chat-left-text"></i> Навыки DevOps</li></a>
+            <a href="{% url 'create' %}"><li><button class="btn btn-info"><i class="fas fa-plus-circle"></i></button> Добавить навыки</li></a>
+        </ul>
+    </aside>
+    <main>
+    {% block content1 %}
+    {% endblock %}
+    </main>
+</body>
+</html>
