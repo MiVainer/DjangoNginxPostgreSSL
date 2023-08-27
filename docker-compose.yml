@@ -23,3 +23,5 @@ services:
     env_file:
       # Учетные данные, которые можно будет переопределить
       - ./.env.dev
+volumes:
+  postgres_volume:
