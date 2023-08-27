@@ -6,7 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 # Устанавливаем зависимости для Postgre
 RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get install -y netcat
+RUN apt-get install -y netcat-traditional
 
 # устанавливаем зависимости
 RUN pip install --upgrade pip
