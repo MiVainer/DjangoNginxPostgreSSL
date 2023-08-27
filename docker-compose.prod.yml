@@ -1,0 +1,45 @@
+version: '3.9'
+
+services:
+  web:
+    # Берем Dockerfile из каталога app
+    build:
+      context: ./PetProject2
+      dockerfile: Dockerfile
+    # Запускаем сервер gunicorn
+    command: gunicorn django_project.wsgi:application --bind 0.0.0.0:8000
+    # Открываем порт 8000 внутри и снаружи
+    expose:
+      - 8000
+    # Подключаем статические и медиа файлы
+    volumes:
+      - static_volume:/usr/src/web/static
+      - media_volume:/usr/src/web/media
+    env_file:
+      - ./.env.dev
+    # Дожидаемся запуска контейнера db
+    depends_on:
+      - db
+  db:
+    # Образ и версия базы, которую мы будем использовать
+    image: postgres:15.3-alpine
+    # Внешний том(volume) и место где он будет подключен внутри контейнера
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.dev
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/usr/src/web/static
+      - media_volume:/usr/src/web/media
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+
+
+volumes:
+  postgres_volume:
+  static_volume:
+  media_volume:
