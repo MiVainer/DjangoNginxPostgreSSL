@@ -7,14 +7,14 @@ services:
       context: ./PetProject2
       dockerfile: Dockerfile
     # Запускаем сервер gunicorn
-    command: gunicorn django_project.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn mivainer_project.wsgi.application --bind 0.0.0.0:8000
     # Открываем порт 8000 внутри и снаружи
     expose:
       - 8000
     # Подключаем статические и медиа файлы
     volumes:
-      - static_volume:/usr/src/web/static
-      - media_volume:/usr/src/web/media
+      - static_volume:/usr/src/APP/app1/static
+      - media_volume:/usr/src/APP/app1/media
     env_file:
       - ./.env.dev
     # Дожидаемся запуска контейнера db
