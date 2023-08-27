@@ -5,8 +5,8 @@ WORKDIR /usr/src/APP
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 # Устанавливаем зависимости для Postgre
-RUN apt update \
-    && apt install netcat
+RUN apt-get update \
+    && apt-get install netcat
 RUN apt-get upgrade -y
 # устанавливаем зависимости
 RUN pip install --upgrade pip
