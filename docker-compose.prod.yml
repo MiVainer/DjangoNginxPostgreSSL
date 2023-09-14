@@ -60,3 +60,4 @@ volumes:
   static_volume:
   media_volume:
   etc-letsencrypt:
+  certbot:
