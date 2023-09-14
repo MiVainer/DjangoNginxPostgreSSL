@@ -45,7 +45,7 @@ services:
     depends_on:
       - web
   certbot:
-    image: certbot/certbot
+    image: certbot/certbot:latest
     depends_on:
       - nginx
     container_name: certbot
