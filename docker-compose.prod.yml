@@ -36,7 +36,9 @@ services:
     volumes:
       - static_volume:/usr/src/web/static
       - media_volume:/usr/src/web/media
+      # файлы сертификата сгенерированного certbot лужат в этой директории, ссылка на них в nginx.conf
       - etc-letsencrypt:/etc/nginx/ssl
+      # в этой директории лежат файлы certbot, ссылка на дирректорию в location nginx.conf
       - certbot:/var/www/certbot/
     ports:
       - 80:80
@@ -52,6 +54,7 @@ services:
     volumes:
       - etc-letsencrypt:/etc/letsencrypt
       - certbot:/var/www/certbot/
+    # команда для создания сертификатов
     command: certonly --webroot --webroot-path=/var/www/certbot/ --email cikulaevm6@gmail.com --agree-tos --no-eff-email -d mivainer-project.site
 
 
