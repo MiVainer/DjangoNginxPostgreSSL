@@ -52,7 +52,7 @@ services:
     volumes:
       - etc-letsencrypt:/etc/letsencrypt
       - certbot:/var/www/certbot/
-    command: certonly --webroot --webroot-path=/usr/src/web/static --email cikulaevm6@gmail.com --agree-tos --no-eff-email -d mivainer-project.site
+    command: certonly --webroot --webroot-path=/var/www/certbot/ --email cikulaevm6@gmail.com --agree-tos --no-eff-email -d mivainer-project.site
 
 
 volumes:
