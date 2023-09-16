@@ -24,23 +24,10 @@ ARCHIVE_PREFIX="dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql"
 # создаём дамп моей БД из контейнера (первый postgres это имя контейнера)
 docker exec -t postgres pg_dumpall -c -U mivainer > ${SYNC_DIR}/${ARCHIVE_PREFIX}
 
-### Основной код
-
-# Создаем архив из директориии для бекапа в папке для синхронизации
-tar -czf "${SYNC_DIR}/${ARCHIVE_PREFIX}.tar.gz"
-
 # Синхронизируем папку с S3 хранилищем.
 # Стоит обратить внимание на аргумент `--delete` – он означает,
 # что если в исходной директории (SYNC_DIR) нет файла, который есть в S3,
 # то он удалится в хранилище.
 /usr/local/bin/aws s3 sync --delete "${SYNC_DIR}" "s3://${S3_BUCKET}" --endpoint-url="${S3_ENDPOINT}"
 
-
-
-
-
-
-
-
-/var/lib/docker/volumes/djangonginxpostgressl_postgres_volume/_data/
 
