@@ -57,7 +57,7 @@ services:
     # команда для создания сертификатов
     command: certonly --webroot --webroot-path=/var/www/certbot/ --email cikulaevm6@gmail.com --agree-tos --no-eff-email -d mivainer-project.site
 
-
+# Шарим тома между контейнерами
 volumes:
   postgres_volume:
   static_volume:
