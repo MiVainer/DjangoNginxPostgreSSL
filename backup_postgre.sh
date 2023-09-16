@@ -27,7 +27,7 @@ docker exec -t postgres pg_dumpall -c -U mivainer > ${SYNC_DIR}/${ARCHIVE_PREFIX
 ### Основной код
 
 # Создаем архив из директориии для бекапа в папке для синхронизации
-tar -czf "${SYNC_DIR}/${ARCHIVE_PREFIX}.tar.gz" "${BACKUP_DIR}"
+tar -czf "${SYNC_DIR}/${ARCHIVE_PREFIX}.tar.gz"
 
 # Синхронизируем папку с S3 хранилищем.
 # Стоит обратить внимание на аргумент `--delete` – он означает,
