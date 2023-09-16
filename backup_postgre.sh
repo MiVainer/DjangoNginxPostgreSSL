@@ -16,7 +16,7 @@ BACKUP_DIR='/var/lib/docker/volumes/djangonginxpostgressl_postgres_volume/_data'
 # Эта папка будет синхронизироваться с S3,
 # поэтому при удалении там файлов - они пропадут и в хранилище.
 # Путь должен быть БЕЗ слеша на конце!
-SYNC_DIR='~/backups/postgresql'
+SYNC_DIR='/home/ubuntu/backups/postgresql'
 
 # Префикс создаваемых архивов
 ARCHIVE_PREFIX='data'
