@@ -9,28 +9,25 @@ S3_BUCKET='mipostgresql'
 # Endpoint URL
 S3_ENDPOINT='https://ib.bizmrg.com'
 
-# Путь к директории, которую необходимо бекапить
-BACKUP_DIR='/var/lib/docker/volumes/djangonginxpostgressl_postgres_volume/_data'
-
 # Путь к директории где будут создаваться архивы.
 # Эта папка будет синхронизироваться с S3,
 # поэтому при удалении там файлов - они пропадут и в хранилище.
 # Путь должен быть БЕЗ слеша на конце!
 SYNC_DIR='/home/ubuntu/backups/postgresql'
 
-# Префикс создаваемых архивов
-ARCHIVE_PREFIX='data'
-
-### Основной код
-
-# Время создания бэкапа
-DATE="$(date +%Y-%m-%d_%H-%M)"
-
 # Создаем директорию для синхронизации, если она ещё не существует
 mkdir -p "${SYNC_DIR}"
 
+# Префикс создаваемых архивов
+ARCHIVE_PREFIX="dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql"
+
+# создаём дамп моей БД из контейнера (первый postgres это имя контейнера)
+docker exec -t postgres pg_dumpall -c -U mivainer > ${SYNC_DIR}/${ARCHIVE_PREFIX}
+
+### Основной код
+
 # Создаем архив из директориии для бекапа в папке для синхронизации
-tar -czf "${SYNC_DIR}/${ARCHIVE_PREFIX}_${DATE}.tar.gz" "${BACKUP_DIR}"
+tar -czf "${SYNC_DIR}/${ARCHIVE_PREFIX}.tar.gz" "${BACKUP_DIR}"
 
 # Синхронизируем папку с S3 хранилищем.
 # Стоит обратить внимание на аргумент `--delete` – он означает,
