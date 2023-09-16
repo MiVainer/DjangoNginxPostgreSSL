@@ -6,7 +6,7 @@ set -euo pipefail
 # Имя бакета, куда будут заливаться бекапы
 S3_BUCKET='mipostgresql'
 
-# Endpoint URL (в примере: Hotbox, горячие данные)
+# Endpoint URL
 S3_ENDPOINT='https://ib.bizmrg.com'
 
 # Путь к директории, которую необходимо бекапить

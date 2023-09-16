@@ -27,7 +27,7 @@ services:
     image: postgres:15.3-alpine
     # Внешний том(volume) и место где он будет подключен внутри контейнера
     volumes:
-      - postgres_volume:/var/lib/postgresql/data/
+      - ~/postgresql/:/var/lib/postgresql/data/
     env_file:
       - ./.env.dev
   nginx:
@@ -59,7 +59,7 @@ services:
 
 # Шарим тома между контейнерами
 volumes:
-  postgres_volume:
+  ~/postgresql/:
   static_volume:
   media_volume:
   etc-letsencrypt:
