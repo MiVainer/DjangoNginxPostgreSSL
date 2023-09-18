@@ -28,7 +28,6 @@ services:
     # Внешний том(volume) и место где он будет подключен внутри контейнера
     volumes:
       - postgres_volume:/var/lib/postgresql/data/
-      - /home/ubuntu/Scripts/:/var/lib/postgresql/
     env_file:
       - ./.env.dev
   nginx:
