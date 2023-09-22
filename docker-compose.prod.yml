@@ -1,5 +1,8 @@
 version: '3.9'
 
+networks:
+  loki:
+
 services:
   web:
     container_name: web
@@ -21,6 +24,9 @@ services:
     # Дожидаемся запуска контейнера db
     depends_on:
       - db
+    networks:
+      - loki
+
   db:
     container_name: postgres
     # Образ и версия базы, которую мы будем использовать
@@ -30,9 +36,15 @@ services:
       - postgres_volume:/var/lib/postgresql/data/
     env_file:
       - ./.env.dev
+    networks:
+      - loki
   nginx:
     container_name: nginx
     build: ./nginx
+    # делаем ссыдку на промтэйл-конфиг для сбора логов
+    labels:
+      logging: "promtail"
+      logging_jobname: "containerlogs"
     volumes:
       - static_volume:/usr/src/web/static
       - media_volume:/usr/src/web/media
@@ -46,6 +58,9 @@ services:
     restart: always
     depends_on:
       - web
+    networks:
+      - loki
+
   certbot:
     image: certbot/certbot:latest
     depends_on:
@@ -56,6 +71,46 @@ services:
       - certbot:/var/www/certbot/
     # команда для создания сертификатов
     command: certonly --webroot --webroot-path=/var/www/certbot/ --email cikulaevm6@gmail.com --agree-tos --no-eff-email -d mivainer-project.site
+    networks:
+      - loki
+
+  loki:
+    container_name: loki
+    image: grafana/loki:2.9.0
+    ports:
+      - 3100:3100
+    volumes:
+      - $PWD/loki:/etc/loki
+    command: -config.file=/etc/loki/loki-config.yaml
+    networks:
+      - loki
+
+  promtail:
+    container_name: promtail
+    image: grafana/promtail:2.9.0
+    volumes:
+      - /var/log:/var/log
+      - $PWD/promtail:/etc/promtail
+      - /var/lib/docker/containers:/var/lib/docker/containers
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: -config.file=/etc/promtail/promtail-config.yaml
+    networks:
+      - loki
+
+  grafana:
+    container_name: grafana
+    env_file:
+      - ./.env.dev
+    volumes:
+      - $PWD/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - grafana_storage:/var/lib/grafana
+      - grafana_config:/etc/grafana
+
+    image: grafana/grafana:latest
+    ports:
+      - 3000:3000
+    networks:
+      - loki
 
 # Шарим тома между контейнерами
 volumes:
@@ -64,3 +119,5 @@ volumes:
   media_volume:
   etc-letsencrypt:
   certbot:
+  grafana_storage:
+  grafana_config:
