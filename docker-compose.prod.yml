@@ -31,6 +31,10 @@ services:
     container_name: postgres
     # Образ и версия базы, которую мы будем использовать
     image: postgres:15.3-alpine
+    # делаем ссылку на промтэйл-конфиг для сбора логов
+    labels:
+      logging: "promtail"
+      logging_jobname: "containerlogs"
     # Внешний том(volume) и место где он будет подключен внутри контейнера
     volumes:
       - postgres_volume:/var/lib/postgresql/data/
@@ -41,7 +45,7 @@ services:
   nginx:
     container_name: nginx
     build: ./nginx
-    # делаем ссыдку на промтэйл-конфиг для сбора логов
+    # делаем ссылку на промтэйл-конфиг для сбора логов
     labels:
       logging: "promtail"
       logging_jobname: "containerlogs"
